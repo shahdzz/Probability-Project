@@ -1,0 +1,140 @@
+
+using System;
+
+namespace statistics
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            // Median
+
+            Console.Write("Enter number of items :");
+            int n = int.Parse(Console.ReadLine());
+
+            int[] A = new int[n];
+
+            Console.WriteLine("Enter items : ");
+            for (int i = 0; i < n; ++i)
+            {
+                A[i] = int.Parse(Console.ReadLine());
+            }
+
+            Array.Sort(A);
+
+            Console.WriteLine(" ");
+
+            int x = n / 2;
+            double median;
+
+            if (n % 2 == 0)
+            {
+                median = (A[x - 1] + A[x]) / 2;
+
+                Console.WriteLine("Median = " + median + " \n ");
+            }
+            else
+            {
+                median = A[x];
+
+                Console.WriteLine("Median = " + median + " \n ");
+            }
+
+            // Mode
+
+            int mode = 0;
+            int cmode = 0;
+
+            for (int i = 0; i < n; i++)
+            {
+                int count = 0;
+                for (int j = i + 1; j < n; j++)
+                {
+                    if (A[i] == A[j])
+                    {
+                        count++;
+                    }
+                }
+
+                if (count>cmode)
+                {
+                    cmode = count;
+                    mode = A[i];
+                }
+            }
+
+            Console.WriteLine("Mode = " + mode + " \n ");
+
+            // Range
+
+            int range = A[n - 1] - A[0];
+
+            Console.WriteLine("Range = " + range);
+
+
+            // Quartiles
+
+            int q1_Index = n / 4;
+            double q1;
+
+            if (n % 4 == 0)
+            {
+                q1 = (A[q1_Index - 1] + A[q1_Index]) / 2.0;
+            }
+            else
+            {
+                q1 = A[q1_Index];
+            }
+
+            Console.WriteLine("Q1: " + q1 + " \n ");
+
+            int q3_Index = 3 * n / 4;
+            double q3;
+
+            if (n % 4 == 0)
+            {
+                q3 = (A[q3_Index - 1] + A[q3_Index]) / 2.0;
+            }
+            else
+            {
+                q3 = A[q3_Index];
+            }
+
+            Console.WriteLine("Q3: " + q3 + " \n ");
+
+            // the P90
+
+            int p90_Index = (int)Math.Ceiling(0.9 * n) - 1;
+            double p90 = A[p90_Index];
+
+            Console.WriteLine("P90: " + p90 + " \n ");
+
+            // interquartile range
+
+            double interqr = q3 - q1;
+
+            Console.WriteLine("Interquartile range: " + interqr + " \n ");
+
+            // the outlier boundaries
+
+            double lowerBound = q1 - 1.5 * interqr;
+            double upperBound = q3 + 1.5 * interqr;
+
+            Console.WriteLine("Outlier boundaries: " + lowerBound + " - " + upperBound + " \n ");
+
+            // Check if input values are outliers
+
+            Console.Write("Enter a value to check if it is an outlier: ");
+
+            int value = int.Parse(Console.ReadLine());
+            if (value < lowerBound || value > upperBound)
+            {
+                Console.WriteLine(value + " is an outlier.");
+            }
+            else
+            {
+                Console.WriteLine(value + " is not an outlier.");
+            }
+        }
+    }
+}
